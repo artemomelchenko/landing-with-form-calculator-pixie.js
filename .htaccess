@@ -1,0 +1,47 @@
+<IfModule mod_rewrite.c>
+    Options +SymLinksIfOwnerMatch
+    RewriteEngine On
+#    RewriteCond %{HTTP:GeoIp-Country-Code} ^(UA)$
+#    RewriteCond %{REMOTE_ADDR} !^176\.120\.59\.16
+#	RewriteCond %{REMOTE_ADDR} !^91\.237\.27\.148
+#	RewriteCond %{REMOTE_ADDR} !^91\.237\.27\.200
+#    RewriteRule .* - [F]
+#    RewriteCond %{HTTP:GeoIp-Country-Code} ^(IT)$
+#    RewriteCond %{REQUEST_URI} ^/$
+#    RewriteRule .* /it [L,R=302]
+#    RewriteCond %{HTTP:GeoIp-Country-Code} ^(ES)$
+#    RewriteCond %{REQUEST_URI} ^/$
+#    RewriteRule .* /es [L,R=302]
+#    RewriteCond %{HTTP:GeoIp-Country-Code} ^(PT)$
+#    RewriteCond %{REQUEST_URI} ^/$
+#    RewriteRule .* /pt [L,R=302]
+    RewriteCond %{HTTP:GeoIp-Country-Code} ^(RO)$
+    RewriteCond %{REQUEST_URI} ^/$
+    RewriteRule .* /ro [L,R=302]
+    RewriteCond %{REQUEST_URI} ^/en-us$
+    RewriteRule .* /en [L,R=302]
+</IfModule>
+<IfModule mod_rewrite.c>
+    RewriteCond %{REQUEST_URI} ^/(admin)
+    RewriteRule ^admin/assets/(.*)$ backend/web/assets/$1 [L]
+    RewriteRule ^admin/css/(.*)$ backend/web/css/$1 [L]
+    RewriteRule ^admin/js/(.*)$ backend/web/js/$1 [L]
+    RewriteRule ^admin/libs/(.*)$ backend/web/libs/$1 [L]
+    RewriteRule ^admin/img/(.*)$ backend/web/img/$1 [L]
+    RewriteRule ^admin/plugins/(.*)$ backend/web/plugins/$1 [L]
+    RewriteCond %{REQUEST_URI} !^/backend/web/(assets|js|css|js)/
+    RewriteCond %{REQUEST_URI} ^/(admin)
+    RewriteRule ^.*$ backend/web/index.php [L]
+    RewriteCond %{REQUEST_URI} ^/(assets|css|js|images)
+    RewriteRule ^assets/(.*)$ frontend/web/assets/$1 [L]
+    RewriteRule ^css/(.*)$ frontend/web/css/$1 [L]
+    RewriteRule ^js/(.*)$ frontend/web/js/$1 [L]
+    RewriteRule ^img/(.*)$ frontend/web/img/$1 [L]
+    RewriteRule ^img/(.*)$ frontend/web/certificates/$1 [L]
+    RewriteRule ^(.*)$ frontend/web/$1 [L]
+    RewriteCond %{REQUEST_URI} !^/(frontend|backend)/web/(assets|css|js)/
+    RewriteCond %{REQUEST_URI} !index.php
+    RewriteCond %{REQUEST_FILENAME} !-f [OR]
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^.*$ frontend/web/index.php
+</IfModule>
